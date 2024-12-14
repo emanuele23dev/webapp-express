@@ -37,7 +37,23 @@ function show(req, res) {
   });
 }
 
+function review(req, res) {
+  const movie_id = Number(req.params.id);
+  const { name, vote, text } = req.body;
+  // const now = new Date();
+  // const reviewDate = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()}`;
+  // console.log(reviewDate);
+
+  const sql = `INSERT INTO reviews (movie_id, name, vote, text) VALUES (?,?,?,?)`;
+
+  connection.query(sql, [movie_id, name, vote, text], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    return res.status(201).json({ success: true });
+  });
+}
+
 module.exports = {
   index,
   show,
+  review,
 };
